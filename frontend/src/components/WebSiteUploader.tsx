@@ -33,6 +33,11 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
     }
   }, [selectedFile]);
 
+  
+  function delay(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
+  }
+  
   // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
   //   const file = event.target.files?.[0];
   //   setSelectedFile(file || null);
@@ -70,9 +75,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   const submitMessage = async () => {
     setWebInputStatus("loading");
     console.log("loading");
-    setTimeout(function() {
-      console.log("Minęły 3 sekundy");
-    }, 3000);
+    await delay(4000);
     setWebInputStatus("idle");
     console.log("backidle");
   }
