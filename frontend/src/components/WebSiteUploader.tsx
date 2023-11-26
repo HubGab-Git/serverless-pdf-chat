@@ -19,7 +19,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   
   // handleKeyPress,
 }) => {
-  // const [inputStatus, setInputStatus] = useState<string>("idle");
+  const [webInputStatus, setWebInputStatus] = useState<string>("idle");
   // const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -57,34 +57,36 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   // };
 
   // const resetInput = () => {
-  //   setSelectedFile(null);
-  //   setInputStatus("idle");
-  //   setButtonStatus("ready");
+  //   // setSelectedFile(null);
+  //   setWebInputStatus("idle");
+  //   // setButtonStatus("ready");
   // };
-  let messageStatus: String = "idle";
   // let prompt = "prompt"
 
   let handleKeyPress = () => {
     console.log("handleKeyPress")
   }
 
-  let submitMessage = () => {
-    console.log("submitMessage")
+  const submitMessage = async () => {
+    setWebInputStatus("loading");
+    setTimeout(function() {
+      console.log("Minęły 3 sekundy");
+    }, 3000);
+    setWebInputStatus("idle");
   }
   return (
     <div>
-      <div className="flex justify-between pt-6 pb-4">
-      <h2 className="text-2xl font-bold pb-4">Add MP Website</h2>
+      <h2 className="text-2xl font-bold pb-4 pt-6">Add MP Website</h2>
       <div className="relative">
           <input
-            disabled={messageStatus === "loading"}
+            disabled={webInputStatus === "loading"}
             type="text"
             id="websiteUrl"
             value={prompt}
             onChange={handlePromptChange}
             onKeyDown={handleKeyPress}
             className={
-              messageStatus === "loading"
+              webInputStatus === "loading"
                 ? "block w-full p-4 pl-4 text-sm text-gray-500 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 : "block w-full p-4 pl-4 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             }
@@ -92,7 +94,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
               "https://www.mp.pl/interna/chapter/..."
             }
           />
-          {messageStatus === "idle" && (
+          {webInputStatus === "idle" && (
             <button
               type="submit"
               className="text-gray-700 absolute right-2 bottom-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
@@ -101,7 +103,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
               <DocumentMagnifyingGlassIcon className="w-6 h-6" />
             </button>
           )}
-          {messageStatus === "loading" && (
+          {webInputStatus === "loading" && (
             <button
               disabled
               type="submit"
@@ -126,7 +128,6 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
               </svg>
             </button>
           )}
-        </div>
         </div>
     </div>
   );
