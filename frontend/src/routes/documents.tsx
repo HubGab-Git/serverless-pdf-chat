@@ -4,20 +4,20 @@ import WebSiteUploader from "../components/WebSiteUploader";
 import DocumentList from "../components/DocumentList";
 
 const Documents: React.FC = () => {
-  const handlePromptChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrompt(event.target.value);
+  const handleWebsiteUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsiteUrl(event.target.value);
   };
 
-  const [prompt, setPrompt] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
   return (
     <>
       <DocumentUploader />
       <WebSiteUploader 
-        prompt={prompt}
+        websiteUrl={websiteUrl}
         // messageStatus={messageStatus}
         // submitMessage={submitMessage}
         // handleKeyPress={handleKeyPress}
-        handlePromptChange={handlePromptChange}/>
+        handleWebsiteUrlChange={handleWebsiteUrlChange}/>
       <DocumentList />
     </>
   );
