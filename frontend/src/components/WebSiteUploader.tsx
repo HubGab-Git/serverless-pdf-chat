@@ -1,19 +1,19 @@
 import {  useState, useEffect } from "react";
-// import { API } from "aws-amplify";
+import { API } from "aws-amplify";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 
 interface UrlInputProps {
   // messageStatus: string;
-  handlePromptChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleWebsiteUrlChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  prompt: string;
+  websiteUrl: string;
   // submitMessage: () => Promise<void>;
 }
 
 const WebSiteUploader: React.FC<UrlInputProps> = ({
-  prompt,
-  handlePromptChange,
+  websiteUrl,
+  handleWebsiteUrlChange,
   // messageStatus,
   // submitMessage,
   
@@ -75,7 +75,12 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   const submitMessage = async () => {
     setWebInputStatus("loading");
     console.log("loading");
-    await delay(4000);
+    await API.post("serverless-pdf-chat", "/upload_website", {
+      headers: { "Content-Type": "application/json" },
+      queryStringParameters: {
+        url: websiteUrl,
+      },
+    })
     setWebInputStatus("idle");
     console.log("backidle");
   }
@@ -86,9 +91,9 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
           <input
             disabled={webInputStatus === "loading"}
             type="text"
-            id="websiteUrl"
-            value={prompt}
-            onChange={handlePromptChange}
+            id="websiteUrlInput"
+            value={websiteUrl}
+            onChange={handleWebsiteUrlChange}
             onKeyDown={handleKeyPress}
             className={
               webInputStatus === "loading"

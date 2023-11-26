@@ -191,10 +191,10 @@ Resources:
             Path: /generate_presigned_url
             Method: GET
   
-  GeneratePresignedUrlForWebSiteFunction:
+  UploadWebSiteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/generate_presigned_url/
+      CodeUri: src/upload_website/
       Policies:
         - S3CrudPolicy:
             BucketName: !Ref DocumentBucket
@@ -207,8 +207,8 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /generate_presigned_url_for_web_site
-            Method: GET
+            Path: /upload_website
+            Method: POST
 
   UploadTriggerFunction:
     Type: AWS::Serverless::Function

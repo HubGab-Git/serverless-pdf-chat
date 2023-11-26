@@ -30,16 +30,16 @@ def s3_key_exists(bucket, key):
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
     user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
-    file_name_full = event["queryStringParameters"]["file_name"]
-    file_name = file_name_full.split(".pdf")[0]
+    # file_name_full = event["queryStringParameters"]["file_name"]
+    webSiteUrl = event["queryStringParameters"]["web_site_url"]
+    # file_name = file_name_full.split(".pdf")[0]
 
-    exists = s3_key_exists(BUCKET, f"{user_id}/{file_name_full}/{file_name_full}")
+    exists = s3_key_exists(BUCKET, f"{user_id}/{webSiteUrl}/{webSiteUrl}")
 
     logger.info(
         {
             "user_id": user_id,
-            "file_name_full": file_name_full,
-            "file_name": file_name,
+            "file_name_full": webSiteUrl,
             "exists": exists,
         }
     )
