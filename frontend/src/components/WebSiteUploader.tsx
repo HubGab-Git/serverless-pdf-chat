@@ -1,58 +1,50 @@
-import { ChangeEvent, useState, useEffect } from "react";
-import { API } from "aws-amplify";
+import {  useState, useEffect } from "react";
+// import { API } from "aws-amplify";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
-import { filesize } from "filesize";
-import {
-  DocumentIcon,
-  CheckCircleIcon,
-  CloudArrowUpIcon,
-  XCircleIcon,
-  ArrowLeftCircleIcon,
-} from "@heroicons/react/24/outline";
 
 const WebSiteUploader: React.FC = () => {
-  const [inputStatus, setInputStatus] = useState<string>("idle");
-  const [buttonStatus, setButtonStatus] = useState<string>("ready");
+  // const [inputStatus, setInputStatus] = useState<string>("idle");
+  // const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (selectedFile) {
       if (selectedFile.type === "application/pdf") {
-        setInputStatus("valid");
+        // setInputStatus("valid");
       } else {
         setSelectedFile(null);
       }
     }
   }, [selectedFile]);
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setSelectedFile(file || null);
-  };
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   setSelectedFile(file || null);
+  // };
 
-  const uploadFile = async () => {
-    setButtonStatus("uploading");
-    await API.get("serverless-pdf-chat", "/generate_presigned_url", {
-      headers: { "Content-Type": "application/json" },
-      queryStringParameters: {
-        file_name: selectedFile?.name,
-      },
-    }).then((presigned_url) => {
-      fetch(presigned_url.presignedurl, {
-        method: "PUT",
-        body: selectedFile,
-        headers: { "Content-Type": "application/pdf" },
-      }).then(() => {
-        setButtonStatus("success");
-      });
-    });
-  };
+  // const uploadFile = async () => {
+  //   // setButtonStatus("uploading");
+  //   await API.get("serverless-pdf-chat", "/generate_presigned_url", {
+  //     headers: { "Content-Type": "application/json" },
+  //     queryStringParameters: {
+  //       file_name: selectedFile?.name,
+  //     },
+  //   }).then((presigned_url) => {
+  //     fetch(presigned_url.presignedurl, {
+  //       method: "PUT",
+  //       body: selectedFile,
+  //       headers: { "Content-Type": "application/pdf" },
+  //     }).then(() => {
+  //       setButtonStatus("success");
+  //     });
+  //   });
+  // };
 
-  const resetInput = () => {
-    setSelectedFile(null);
-    setInputStatus("idle");
-    setButtonStatus("ready");
-  };
+  // const resetInput = () => {
+  //   setSelectedFile(null);
+  //   setInputStatus("idle");
+  //   setButtonStatus("ready");
+  // };
   let messageStatus: String = "messageStatus";
   let handlePromptChange = () => {
     console.log("handlePromptChange")
