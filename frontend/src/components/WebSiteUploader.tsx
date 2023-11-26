@@ -32,11 +32,6 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
       }
     }
   }, [selectedFile]);
-
-  
-  function delay(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-  }
   
   // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
   //   const file = event.target.files?.[0];
