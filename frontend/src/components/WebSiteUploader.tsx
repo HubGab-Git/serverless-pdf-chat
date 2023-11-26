@@ -69,10 +69,12 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
 
   const submitMessage = async () => {
     setWebInputStatus("loading");
+    console.log("loading");
     setTimeout(function() {
       console.log("Minęły 3 sekundy");
     }, 3000);
     setWebInputStatus("idle");
+    console.log("backidle");
   }
   return (
     <div>
