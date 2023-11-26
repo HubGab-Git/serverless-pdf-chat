@@ -1,6 +1,6 @@
 import {  useState, useEffect } from "react";
 // import { API } from "aws-amplify";
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 
 interface UrlInputProps {
@@ -61,7 +61,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   //   setInputStatus("idle");
   //   setButtonStatus("ready");
   // };
-  let messageStatus: String = "messageStatus";
+  let messageStatus: String = "idle";
   // let prompt = "prompt"
 
   let handleKeyPress = () => {
@@ -73,6 +73,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   }
   return (
     <div>
+      <div className="flex justify-between pt-6 pb-4">
       <h2 className="text-2xl font-bold pb-4">Add MP Website</h2>
       <div className="relative">
           <input
@@ -97,7 +98,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
               className="text-gray-700 absolute right-2 bottom-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
               onClick={submitMessage}
             >
-              <PaperAirplaneIcon className="w-6 h-6" />
+              <DocumentMagnifyingGlassIcon className="w-6 h-6" />
             </button>
           )}
           {messageStatus === "loading" && (
@@ -125,6 +126,7 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
               </svg>
             </button>
           )}
+        </div>
         </div>
     </div>
   );
