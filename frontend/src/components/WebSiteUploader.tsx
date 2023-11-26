@@ -4,19 +4,20 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 
 
 interface UrlInputProps {
-  messageStatus: string;
+  // messageStatus: string;
   handlePromptChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  // handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   prompt: string;
-  submitMessage: () => Promise<void>;
+  // submitMessage: () => Promise<void>;
 }
 
 const WebSiteUploader: React.FC<UrlInputProps> = ({
   prompt,
-  messageStatus,
-  submitMessage,
   handlePromptChange,
-  handleKeyPress,
+  // messageStatus,
+  // submitMessage,
+  
+  // handleKeyPress,
 }) => {
   // const [inputStatus, setInputStatus] = useState<string>("idle");
   // const [buttonStatus, setButtonStatus] = useState<string>("ready");
@@ -60,16 +61,16 @@ const WebSiteUploader: React.FC<UrlInputProps> = ({
   //   setInputStatus("idle");
   //   setButtonStatus("ready");
   // };
-  // let messageStatus: String = "messageStatus";
+  let messageStatus: String = "messageStatus";
   // let prompt = "prompt"
 
-  // let handleKeyPress = () => {
-  //   console.log("handleKeyPress")
-  // }
+  let handleKeyPress = () => {
+    console.log("handleKeyPress")
+  }
 
-  // let submitMessage = () => {
-  //   console.log("submitMessage")
-  // }
+  let submitMessage = () => {
+    console.log("submitMessage")
+  }
   return (
     <div>
       <h2 className="text-2xl font-bold pb-4">Add MP Website</h2>
