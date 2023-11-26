@@ -2,7 +2,22 @@ import {  useState, useEffect } from "react";
 // import { API } from "aws-amplify";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 
-const WebSiteUploader: React.FC = () => {
+
+interface UrlInputProps {
+  messageStatus: string;
+  handlePromptChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  prompt: string;
+  submitMessage: () => Promise<void>;
+}
+
+const WebSiteUploader: React.FC<UrlInputProps> = ({
+  prompt,
+  messageStatus,
+  submitMessage,
+  handlePromptChange,
+  handleKeyPress,
+}) => {
   // const [inputStatus, setInputStatus] = useState<string>("idle");
   // const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -45,21 +60,19 @@ const WebSiteUploader: React.FC = () => {
   //   setInputStatus("idle");
   //   setButtonStatus("ready");
   // };
-  let messageStatus: String = "messageStatus";
-  let handlePromptChange = () => {
-    console.log("handlePromptChange")
-  }
-  let prompt = "prompt"
+  // let messageStatus: String = "messageStatus";
+  // let prompt = "prompt"
 
-  let handleKeyPress = () => {
-    console.log("handleKeyPress")
-  }
+  // let handleKeyPress = () => {
+  //   console.log("handleKeyPress")
+  // }
 
-  let submitMessage = () => {
-    console.log("submitMessage")
-  }
+  // let submitMessage = () => {
+  //   console.log("submitMessage")
+  // }
   return (
     <div>
+      <h2 className="text-2xl font-bold pb-4">Add MP Website</h2>
       <div className="relative">
           <input
             disabled={messageStatus === "loading"}
