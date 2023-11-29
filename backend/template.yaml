@@ -82,12 +82,21 @@ Resources:
     Properties:
       VisibilityTimeout: 180
       MessageRetentionPeriod: 3600
+    
+  EmbeddingWebQueue:
+    Type: AWS::SQS::Queue
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      VisibilityTimeout: 900
+      MessageRetentionPeriod: 3600
 
   EmbeddingQueuePolicy:
     Type: AWS::SQS::QueuePolicy
     Properties:
       Queues:
         - !Ref EmbeddingQueue
+        - !Ref EmbeddingWebQueue
       PolicyDocument:
         Version: "2012-10-17"
         Id: SecureTransportPolicy
@@ -195,13 +204,27 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/upload_website/
+      Timeout: 900
       Policies:
         - S3CrudPolicy:
             BucketName: !Ref DocumentBucket
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DocumentTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MemoryTable
+        - SQSSendMessagePolicy:
+            QueueName: !GetAtt EmbeddingWebQueue.QueueName
+        - SSMParameterReadPolicy:
+            ParameterName: mp-credentials
+      Layers:
+        - arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension-Arm64:11
       Environment:
         Variables:
           BUCKET: !Ref DocumentBucket
           REGION: !Sub ${AWS::Region}
+          DOCUMENT_TABLE: !Ref DocumentTable
+          MEMORY_TABLE: !Ref MemoryTable
+          QUEUE: !GetAtt EmbeddingWebQueue.QueueName
       Events:
         Root:
           Type: Api
@@ -214,6 +237,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/upload_trigger/
+      Timeout: 900
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DocumentTable
@@ -329,6 +353,35 @@ Resources:
           Type: SQS
           Properties:
             Queue: !GetAtt EmbeddingQueue.Arn
+            BatchSize: 1
+  
+  GenerateWebEmbeddingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/generate_web_embeddings/
+      Timeout: 900
+      MemorySize: 2048
+      Policies:
+        - SQSPollerPolicy:
+            QueueName: !GetAtt EmbeddingWebQueue.QueueName
+        - S3CrudPolicy:
+            BucketName: !Ref DocumentBucket
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DocumentTable
+        - Statement:
+            - Sid: "BedrockScopedAccess"
+              Effect: "Allow"
+              Action: "bedrock:InvokeModel"
+              Resource: "arn:aws:bedrock:*::foundation-model/amazon.titan-embed-text-v1"
+      Environment:
+        Variables:
+          DOCUMENT_TABLE: !Ref DocumentTable
+          BUCKET: !Ref DocumentBucket
+      Events:
+        EmbeddingWebQueueEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt EmbeddingWebQueue.Arn
             BatchSize: 1
 
   GenerateResponseFunction:
