@@ -4,14 +4,14 @@ import { API } from "aws-amplify";
 import { Conversation } from "../common/types";
 import ChatSidebar from "../components/ChatSidebar";
 import ChatMessages from "../components/ChatMessages";
-import LoadingGrid from "../../public/loading-grid.svg";
+// import LoadingGrid from "../../public/loading-grid.svg";
 
 const MultiChat: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
 
   const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [loading, setLoading] = React.useState<string>("idle");
+  // const [loading, setLoading] = React.useState<string>("idle");
   const [messageStatus, setMessageStatus] = useState<string>("idle");
   const [conversationListStatus, setConversationListStatus] = useState<
     "idle" | "loading"
@@ -19,14 +19,14 @@ const MultiChat: React.FC = () => {
   const [prompt, setPrompt] = useState("");
 
   const fetchData = async (conversationid = params.conversationid) => {
-    setLoading("loading");
+    // setLoading("loading");
     const conversation = await API.get(
       "serverless-pdf-chat",
       `/doc/${params.documentid}/${conversationid}`,
       {}
     );
     setConversation(conversation);
-    setLoading("idle");
+    // setLoading("idle");
   };
 
   useEffect(() => {
@@ -99,11 +99,11 @@ const MultiChat: React.FC = () => {
 
   return (
     <div className="">
-      {loading === "loading" && !conversation && (
+      {/* {loading === "loading" && !conversation && (
         <div className="flex flex-col items-center mt-6">
           <img src={LoadingGrid} width={40} />
         </div>
-      )}
+      )} */}
       {conversation && (
         <div className="grid grid-cols-12 border border-gray-200 rounded-lg">
           <ChatSidebar
