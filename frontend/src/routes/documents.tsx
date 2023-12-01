@@ -17,11 +17,16 @@ const Documents: React.FC = () => {
         websiteUrl={websiteUrl}
         handleWebsiteUrlChange={handleWebsiteUrlChange}/>
       <Link
-              to={`/multichat/`}
-              // key={document.documentid}
-              className="block p-6 bg-white border border-gray-200 rounded hover:bg-gray-100"
-            >
-            </Link>
+          to={`/multichat/`}
+          // key={document.documentid}
+          className="text-center block p-6 bg-white border border-gray-200 rounded hover:bg-gray-100"
+        > 
+        <div
+            className="bg-gray-50 w-full inline-flex items-center px-4 py-2.5 border border-gray-100 rounded hover:bg-gray-200"
+          >
+            Start a new conversation
+          </div>
+      </Link>
       <DocumentList />
     </>
   );
