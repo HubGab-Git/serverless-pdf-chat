@@ -5,6 +5,7 @@ import "./index.css";
 import Layout from "./routes/layout";
 import Documents from "./routes/documents";
 import Chat from "./routes/chat";
+import MultiChat from "./routes/multichat";
 
 Amplify.configure({
   Auth: {
@@ -42,6 +43,10 @@ let router = createBrowserRouter([
       {
         path: "/doc/:documentid/:conversationid",
         Component: Chat,
+      },
+      {
+        path: "/multichat",
+        Component: MultiChat,
       },
     ],
   },

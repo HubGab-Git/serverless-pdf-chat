@@ -80,7 +80,7 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      VisibilityTimeout: 180
+      VisibilityTimeout: 900
       MessageRetentionPeriod: 3600
     
   EmbeddingWebQueue:
