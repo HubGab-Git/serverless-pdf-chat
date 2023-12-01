@@ -96,7 +96,7 @@ const Document: React.FC = () => {
     fetchData(conversation?.conversationid);
     setMessageStatus("idle");
   };
-  console.log("conversation: "+ conversation)
+  console.log("conversation: "+ JSON.stringify(conversation, null, 2))
   return (
     <div className="">
       {loading === "loading" && !conversation && (
