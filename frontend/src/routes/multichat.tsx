@@ -97,6 +97,44 @@ const MultiChat: React.FC = () => {
     setMessageStatus("idle");
   };
 
+  let conver = {
+    "conversationid": "jsrKAdW4svxwHRqnMHuD2K",
+    "document": {
+      "filename": "Tamponada_serca",
+      "conversations": [
+        {
+          "conversationid": "jsrKAdW4svxwHRqnMHuD2K",
+          "created": "2023-11-29T16:41:00.444465Z"
+        }
+      ],
+      "docstatus": "READY",
+      "filesize": "0",
+      "userid": "d0c36275-5f90-4418-b4d0-81c92df094e7",
+      "documentid": "2ecfzYwKWe3c73hpzhh9JZ",
+      "created": "2023-11-29T16:41:00.444465Z",
+      "pages": "0"
+    },
+    "messages": [
+      {
+        "type": "human",
+        "data": {
+          "type": "human",
+          "content": "Podaj Objawy podmiotowe Tamponady serca",
+          "additional_kwargs": {},
+          "example": false
+        }
+      },
+      {
+        "type": "ai",
+        "data": {
+          "type": "ai",
+          "content": " Zgodnie z podanym fragmentem, objawy podmiotowe tamponady serca to:\n\n- Duszność nasilająca się po przyjęciu pozycji leżącej \n- Zmniejszona tolerancja wysiłku fizycznego\n- Niekiedy kaszel \n- Dysfagia  \n- Omdlenie lub stan przedomdleniowy",
+          "additional_kwargs": {},
+          "example": false
+        }
+      }
+    ]}
+
   return (
     <div className="">
       {/* {loading === "loading" && !conversation && (
@@ -104,10 +142,10 @@ const MultiChat: React.FC = () => {
           <img src={LoadingGrid} width={40} />
         </div>
       )} */}
-      {conversation && (
+      {conver && (
         <div className="grid grid-cols-12 border border-gray-200 rounded-lg">
           <ChatSidebar
-            conversation={conversation}
+            conversation={conver}
             params={params}
             addConversation={addConversation}
             switchConversation={switchConversation}
@@ -115,7 +153,7 @@ const MultiChat: React.FC = () => {
           />
           <ChatMessages
             prompt={prompt}
-            conversation={conversation}
+            conversation={conver}
             messageStatus={messageStatus}
             submitMessage={submitMessage}
             handleKeyPress={handleKeyPress}
