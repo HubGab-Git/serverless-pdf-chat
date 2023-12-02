@@ -1,6 +1,6 @@
 import os, json
 import boto3
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr
 from aws_lambda_powertools import Logger
 
 
@@ -16,7 +16,10 @@ logger = Logger()
 def lambda_handler(event, context):
     user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
 
-    response = document_table.query(KeyConditionExpression=Key("userid").eq(user_id))
+    response = document_table.query(
+        KeyConditionExpression=Key("userid").eq(user_id),
+        FilterExpression=Attr('pages').eq('0')
+    )
     items = sorted(response["Items"], key=lambda item: item["created"], reverse=True)
     for item in items:
         item["conversations"] = sorted(
