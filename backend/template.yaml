@@ -305,6 +305,24 @@ Resources:
             Path: /doc
             Method: GET
 
+  GetAllWebDocuments:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/get_all_web_documents/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DocumentTable
+      Environment:
+        Variables:
+          DOCUMENT_TABLE: !Ref DocumentTable
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /all_web_docs
+            Method: GET
+
   AddConversationFunction:
     Type: AWS::Serverless::Function
     Properties:
