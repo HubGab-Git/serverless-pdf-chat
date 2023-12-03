@@ -9,7 +9,7 @@ interface ChatMessagesProps {
   handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   prompt: string;
   submitMessage: () => Promise<void>;
-  selectedCheckboxes: string[];
+  selectedCheckboxes?: string[];
 }
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
@@ -22,7 +22,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   selectedCheckboxes
 }) => {
 
-  if (selectedCheckboxes.length === 0) {
+  if (selectedCheckboxes?.length === 0) {
     return <p>Brak zaznaczonych opcji.</p>;
   }
 
