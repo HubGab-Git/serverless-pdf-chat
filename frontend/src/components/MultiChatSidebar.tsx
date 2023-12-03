@@ -34,6 +34,7 @@ const MultiChatSidebar= () => {
         //   throw new Error('Network response was not ok');
         // }
         const data = await response.json();
+        console.log("data: "+ JSON.stringify(data, null, 2));
         setItems(data);
       } catch (err: any) {
         setError(err.message);
