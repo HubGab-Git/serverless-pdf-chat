@@ -8,8 +8,6 @@ import ChatMessages from "../components/ChatMessages";
 
 const MultiChat: React.FC = () => {
   const params = useParams();
-  // const navigate = useNavigate();
-
   const [conversation, setConversation] = useState<Conversation | null>(null);
   // const [loading, setLoading] = React.useState<string>("idle");
   const [messageStatus, setMessageStatus] = useState<string>("idle");
@@ -135,23 +133,28 @@ const MultiChat: React.FC = () => {
       }
     ]}
 
+    const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
+
+
+    const handleCheckboxChange = (option: string) => {
+      setSelectedCheckboxes(prev =>
+        prev.includes(option)
+          ? prev.filter(item => item !== option)
+          : [...prev, option]
+      );
+    };
+    
+
   return (
     <div className="">
-      {/* {loading === "loading" && !conversation && (
-        <div className="flex flex-col items-center mt-6">
-          <img src={LoadingGrid} width={40} />
-        </div>
-      )} */}
       {conver && (
         <div className="grid grid-cols-12 border border-gray-200 rounded-lg">
           <MultiChatSidebar
-            // conversation={conver}
-            // params={params}
-            // addConversation={addConversation}
-            // switchConversation={switchConversation}
-            // conversationListStatus={conversationListStatus}
+            selectedCheckboxes={selectedCheckboxes}
+            onCheckboxChange={handleCheckboxChange}
           />
           <ChatMessages
+            selectedCheckboxes={selectedCheckboxes}
             prompt={prompt}
             conversation={conver}
             messageStatus={messageStatus}

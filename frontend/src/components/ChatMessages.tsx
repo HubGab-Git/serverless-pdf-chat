@@ -9,6 +9,7 @@ interface ChatMessagesProps {
   handleKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   prompt: string;
   submitMessage: () => Promise<void>;
+  selectedCheckboxes: string[];
 }
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
@@ -18,7 +19,13 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   submitMessage,
   handlePromptChange,
   handleKeyPress,
+  selectedCheckboxes
 }) => {
+
+  if (selectedCheckboxes.length === 0) {
+    return <p>Brak zaznaczonych opcji.</p>;
+  }
+
   return (
     <div className="flex flex-col justify-between h-full overflow-y-auto col-span-8 p-5 border-l border-gray-200">
       <div className="pb-5">
