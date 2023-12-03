@@ -30,10 +30,7 @@ const MultiChatSidebar= () => {
         // Załóżmy, że mamy endpoint API /api/items
         const response = await API.get("serverless-pdf-chat", "/all_web_docs", {});
         console.log("response: "+ JSON.stringify(response, null, 2));
-        // if (!response.ok) {
-        //   throw new Error('Network response was not ok');
-        // }
-        const data = await response.json();
+        const data = response.map((item: { filename: any; }) => item.filename);
         console.log("data: "+ JSON.stringify(data, null, 2));
         setItems(data);
       } catch (err: any) {
