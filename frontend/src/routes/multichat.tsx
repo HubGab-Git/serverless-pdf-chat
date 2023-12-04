@@ -1,5 +1,5 @@
 import React, { useState, useEffect, KeyboardEvent } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams} from "react-router-dom";
 import { API } from "aws-amplify";
 import { Conversation } from "../common/types";
 import MultiChatSidebar from "../components/MultiChatSidebar";
@@ -9,7 +9,8 @@ import md5 from 'crypto-js/md5';
 
 const MultiChat: React.FC = () => {
   let conversationId = ''
-  const params = useParams();
+  // const params = useParams();
+  // const navigate = useNavigate();
   const [conversation, setConversation] = useState<Conversation | null>(null);
   // const [loading, setLoading] = React.useState<string>("idle");
   const [messageStatus, setMessageStatus] = useState<string>("idle");
@@ -18,7 +19,7 @@ const MultiChat: React.FC = () => {
   // >("idle");
   const [prompt, setPrompt] = useState("");
 
-  const fetchData = async (conversationid = params.conversationid) => {
+  const fetchData = async (conversationid = conversationId) => {
     // setLoading("loading");
     const conversation = await API.get(
       "serverless-pdf-chat",
@@ -38,20 +39,20 @@ const MultiChat: React.FC = () => {
   };
 
   // const addConversation = async () => {
-  //   setConversationListStatus("loading");
+  //   // setConversationListStatus("loading");
   //   const newConversation = await API.post(
   //     "serverless-pdf-chat",
-  //     `/doc/${params.documentid}`,
+  //     `/doc/web`,
   //     {}
   //   );
   //   fetchData(newConversation.conversationid);
-  //   navigate(`/doc/${params.documentid}/${newConversation.conversationid}`);
-  //   setConversationListStatus("idle");
+  //   navigate(`/doc/web/${newConversation.conversationid}`);
+  //   // setConversationListStatus("idle");
   // };
 
   // const switchConversation = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   const targetButton = e.target as HTMLButtonElement;
-  //   navigate(`/doc/${params.documentid}/${targetButton.id}`);
+  //   navigate(`/doc/web/${targetButton.id}`);
   //   fetchData(targetButton.id);
   // };
 
