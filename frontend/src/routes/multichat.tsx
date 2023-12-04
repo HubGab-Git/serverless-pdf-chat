@@ -85,7 +85,7 @@ const MultiChat: React.FC = () => {
       `/multichat`,
       {
         body: {
-          fileName: conversation?.document.filename,
+          fileName: selectedCheckboxes,
           prompt: prompt,
         },
       }

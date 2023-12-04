@@ -21,6 +21,7 @@ logger = Logger()
 def lambda_handler(event, context):
     event_body = json.loads(event["body"])
     file_name = event_body["fileName"]
+    logger.info({"file_name": file_name})
     human_input = event_body["prompt"]
     conversation_id = event["pathParameters"]["conversationid"]
 
