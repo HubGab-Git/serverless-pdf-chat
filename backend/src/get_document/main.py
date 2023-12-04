@@ -32,13 +32,13 @@ def lambda_handler(event, context):
      else:
         document = ''
     
-    if conversation_id != '':
+    if conversation_id != 'web':
         response = memory_table.get_item(Key={"SessionId": conversation_id})
         messages = response["Item"]["History"]
         logger.info({"messages": messages})
     else:
         messages = []
-        
+
     return {
         "statusCode": 200,
         "headers": {

@@ -8,7 +8,7 @@ import md5 from 'crypto-js/md5';
 // import LoadingGrid from "../../public/loading-grid.svg";
 
 const MultiChat: React.FC = () => {
-  let conversationId = ''
+  let conversationId = 'web'
   // const params = useParams();
   // const navigate = useNavigate();
   const [conversation, setConversation] = useState<Conversation | null>(null);
