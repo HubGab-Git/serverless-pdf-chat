@@ -26,6 +26,7 @@ const MultiChat: React.FC = () => {
       `/doc/web/${conversationid}`,
       {}
     );
+    console.log("odpowiedz: "+ JSON.stringify(conversation, null, 2))
     setConversation(conversation);
     // setLoading("idle");
   };

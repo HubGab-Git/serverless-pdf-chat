@@ -29,13 +29,16 @@ def lambda_handler(event, context):
             document["conversations"], key=lambda conv: conv["created"], reverse=True
         )
         logger.info({"document": document})
-
+     else:
+        document = ''
+    
+    if conversation_id != '':
         response = memory_table.get_item(Key={"SessionId": conversation_id})
         messages = response["Item"]["History"]
         logger.info({"messages": messages})
     else:
-        document = ''
         messages = []
+        
     return {
         "statusCode": 200,
         "headers": {
