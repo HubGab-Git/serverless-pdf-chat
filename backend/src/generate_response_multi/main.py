@@ -21,7 +21,7 @@ logger = Logger()
 def lambda_handler(event, context):
     event_body = json.loads(event["body"])
     file_names = event_body["fileName"]
-    logger.info({"file_name": file_name})
+    logger.info({"file_names": file_names})
     human_input = event_body["prompt"]
     # conversation_id = event["pathParameters"]["conversationid"]
     conversation_id = event_body["conversationId"]
@@ -53,10 +53,12 @@ def lambda_handler(event, context):
         model_kwargs={"temperature": 0.1}
     )
 
-    faiss_indexes = []
-    for file_name in file_names:
-        faiss_index = FAISS.load_local("/tmp", embeddings, f"{file_name}.faiss")
-        faiss_indexes.append(faiss_index)
+    for index, file_name in enumerate(file_names):
+        if index == 0:
+            faiss_index = FAISS.load_local("/tmp", embeddings, file_name)
+        else:
+            faiss_index_i = FAISS.load_local("/tmp", embeddings, file_name)
+            faiss_index.merge_from(faiss_index_i)
 
     # faiss_index = FAISS.load_local("/tmp", embeddings)
 
@@ -81,7 +83,7 @@ def lambda_handler(event, context):
 
     qa = ConversationalRetrievalChain.from_llm(
         llm=llm,
-        retriever=MultipleFAISSRetriever(faiss_indexes),
+        retriever=faiss_index.as_retriever(),
         memory=memory,
         return_source_documents=True,
     )
