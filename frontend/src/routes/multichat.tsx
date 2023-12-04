@@ -82,7 +82,7 @@ const MultiChat: React.FC = () => {
 
     await API.post(
       "serverless-pdf-chat",
-      `/${conversation?.document.documentid}/${conversation?.conversationid}`,
+      `/multichat`,
       {
         body: {
           fileName: conversation?.document.filename,
