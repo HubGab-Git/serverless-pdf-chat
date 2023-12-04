@@ -20,19 +20,22 @@ def lambda_handler(event, context):
     document_id = event["pathParameters"]["documentid"]
     conversation_id = event["pathParameters"]["conversationid"]
 
-    response = document_table.get_item(
-        Key={"userid": user_id, "documentid": document_id}
-    )
-    document = response["Item"]
-    document["conversations"] = sorted(
-        document["conversations"], key=lambda conv: conv["created"], reverse=True
-    )
-    logger.info({"document": document})
+    if document_id != 'web':
+        response = document_table.get_item(
+            Key={"userid": user_id, "documentid": document_id}
+        )
+        document = response["Item"]
+        document["conversations"] = sorted(
+            document["conversations"], key=lambda conv: conv["created"], reverse=True
+        )
+        logger.info({"document": document})
 
-    response = memory_table.get_item(Key={"SessionId": conversation_id})
-    messages = response["Item"]["History"]
-    logger.info({"messages": messages})
-
+        response = memory_table.get_item(Key={"SessionId": conversation_id})
+        messages = response["Item"]["History"]
+        logger.info({"messages": messages})
+    else:
+        document = ''
+        messages = []
     return {
         "statusCode": 200,
         "headers": {
