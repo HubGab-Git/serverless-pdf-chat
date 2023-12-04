@@ -20,22 +20,24 @@ logger = Logger()
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
     event_body = json.loads(event["body"])
-    file_name = event_body["fileName"]
+    file_names = event_body["fileName"]
     logger.info({"file_name": file_name})
     human_input = event_body["prompt"]
-    conversation_id = event["pathParameters"]["conversationid"]
+    # conversation_id = event["pathParameters"]["conversationid"]
+    conversation_id = event_body["conversationId"]
+    
 
     user = event["requestContext"]["authorizer"]["claims"]["sub"]
 
     # faiss_files = ["index1.faiss", "index2.faiss"]
     # pkl_files = ["index1.pkl", "index2.pkl"]
 
-    # for faiss_file, pkl_file in zip(faiss_files, pkl_files):
-    # s3.download_file(BUCKET, f"{user}/{file_name}/{faiss_file}", f"/tmp/{faiss_file}")
-    # s3.download_file(BUCKET, f"{user}/{file_name}/{pkl_file}", f"/tmp/{pkl_file}")
+    for file_name in file_names:
+        s3.download_file(BUCKET, f"{user}/{file_name}/index.faiss", f"/tmp/{file_name}.faiss")
+        s3.download_file(BUCKET, f"{user}/{file_name}/index.pkl", f"/tmp/{file_name}.pkl")
 
-    s3.download_file(BUCKET, f"{user}/{file_name}/index.faiss", "/tmp/index.faiss")
-    s3.download_file(BUCKET, f"{user}/{file_name}/index.pkl", "/tmp/index.pkl")
+    # s3.download_file(BUCKET, f"{user}/{file_name}/index.faiss", "/tmp/index.faiss")
+    # s3.download_file(BUCKET, f"{user}/{file_name}/index.pkl", "/tmp/index.pkl")
 
     bedrock_runtime = boto3.client(
         service_name="bedrock-runtime",
@@ -51,12 +53,12 @@ def lambda_handler(event, context):
         model_kwargs={"temperature": 0.1}
     )
 
-    # faiss_indexes = []
-    # for faiss_file in faiss_files:
-    # faiss_index = FAISS.load_local("/tmp", embeddings, faiss_file)
-    # faiss_indexes.append(faiss_index)
+    faiss_indexes = []
+    for file_name in file_names:
+        faiss_index = FAISS.load_local("/tmp", embeddings, f"{file_name}.faiss")
+        faiss_indexes.append(faiss_index)
 
-    faiss_index = FAISS.load_local("/tmp", embeddings)
+    # faiss_index = FAISS.load_local("/tmp", embeddings)
 
     message_history = DynamoDBChatMessageHistory(
         table_name=MEMORY_TABLE, session_id=conversation_id
@@ -70,19 +72,19 @@ def lambda_handler(event, context):
         return_messages=True,
     )
 
+    # qa = ConversationalRetrievalChain.from_llm(
+    #     llm=llm,
+    #     retriever=faiss_index.as_retriever(),
+    #     memory=memory,
+    #     return_source_documents=True,
+    # )
+
     qa = ConversationalRetrievalChain.from_llm(
         llm=llm,
-        retriever=faiss_index.as_retriever(),
+        retriever=MultipleFAISSRetriever(faiss_indexes),
         memory=memory,
         return_source_documents=True,
     )
-
-    # qa = ConversationalRetrievalChain.from_llm(
-    # llm=llm,
-    # retriever=MultipleFAISSRetriever(faiss_indexes),
-    # memory=memory,
-    # return_source_documents=True,
-    # )
     res = qa({"question": human_input})
 
     logger.info(res)

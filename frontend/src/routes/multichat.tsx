@@ -4,6 +4,7 @@ import { API } from "aws-amplify";
 import { Conversation } from "../common/types";
 import MultiChatSidebar from "../components/MultiChatSidebar";
 import ChatMessages from "../components/ChatMessages";
+import md5 from 'crypto-js/md5';
 // import LoadingGrid from "../../public/loading-grid.svg";
 
 const MultiChat: React.FC = () => {
@@ -79,7 +80,7 @@ const MultiChat: React.FC = () => {
 
       setConversation(updatedConversation);
     }
-
+    let conversationString = selectedCheckboxes.join()
     await API.post(
       "serverless-pdf-chat",
       `/multichat`,
@@ -87,6 +88,7 @@ const MultiChat: React.FC = () => {
         body: {
           fileName: selectedCheckboxes,
           prompt: prompt,
+          conversationId: md5(conversationString).toString()
         },
       }
     );
