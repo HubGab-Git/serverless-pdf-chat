@@ -33,7 +33,7 @@ const MultiChatSidebar: React.FC<MultiChatSidebarProps> = ({ onCheckboxChange, s
 
   return (
     <div className="col-span-4 h-full">
-      <div>
+      <div className="flex flex-col">
       {checkboxes.map(option => (
         <label key={option}>
           <input
